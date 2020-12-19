@@ -1,12 +1,5 @@
 import random
 
-# Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
-# We originally match the kay and value so the player can see how the game works
-board_now = {7: "7", 8: "8", 9: "9",
-             4: "4", 5: "5", 6: "6",
-             1: "1", 2: "2", 3: "3"}
-print("Welcome to TicTacToe. You can reference positions on the board using the corresponding numbers on the keyboard.")
-
 
 def display_board(board):
     print(board[7] + '|' + board[8] + '|' + board[9])
@@ -16,38 +9,10 @@ def display_board(board):
     print(board[1] + '|' + board[2] + '|' + board[3])
 
 
-display_board(board_now)
-
-
 # This function resets the board so all values are blank
 # (removes the numbers 1-9 as they were just there as instructions)
 def reset(board):
     board.update({}.fromkeys(board, ' '))
-
-
-reset(board_now)
-
-# This asks the player to choose to play as either X or O
-while True:
-    player_symbol = (input("Please select either X or O? "))
-    if player_symbol == "X" or player_symbol == "x":
-        AI_symbol = "O"
-        print("You have chosen: ", player_symbol, ",and the AI will be: ", AI_symbol)
-        break
-    elif player_symbol == "o" or player_symbol == "O":
-        AI_symbol = "X"
-        print("You have chosen: ", player_symbol, ",and the AI will be: ", AI_symbol)
-        break
-    else:
-        print("Try again. You must press X or O on the keyboard to make your selection")
-        continue
-
-# This chooses at random whether to let the player or AI go first
-first_turn = random.randint(1, 2)
-if first_turn > 1:
-    print("You may have the first turn")
-else:
-    print("The AI will go first this time")
 
 
 # This function asks the player where they would like to place their mark.
@@ -62,12 +27,6 @@ def player_move():
         else:
             print("Try again. You must press a number between 1-9 on the keyboard to make your selection")
             continue
-
-
-turn_count = 0
-player_move()
-turn_count += 1
-display_board(board_now)
 
 
 # We need to define all winning states.
@@ -123,3 +82,59 @@ def winning():
         display_board(board_now)
         print("Game over")
         print("The winner is: ", winner)
+
+
+# We also need to account for possible draws
+# A draw occurs when all positions are filled but there is no winner
+# We can use the turn_count to compute this
+def check_draw():
+    if turn_count == 9:
+        print("Game Over. Ladies and gentlemen, we have a tie!")
+
+
+# Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
+# We originally match the key and value so the player can see how the game works
+board_now = {7: "7", 8: "8", 9: "9",
+             4: "4", 5: "5", 6: "6",
+             1: "1", 2: "2", 3: "3"}
+# We will also print a Welcome message and some instructions here, with a diagram showing how to reference board positions with numbers
+print(
+    "Welcome to TicTacToe. You can reference positions on the board using the corresponding numbers on the keyboard, as shown on the board below.")
+display_board(board_now)
+# We then must reset the board so it contains blank values instead of numbers
+reset(board_now)
+
+# This asks the player to choose to play as either X or O
+while True:
+    player_symbol = (input("Please select either X or O? "))
+    if player_symbol == "X" or player_symbol == "x":
+        AI_symbol = "O"
+        print("You have chosen: ", player_symbol, ",and the AI will be: ", AI_symbol)
+        break
+    elif player_symbol == "o" or player_symbol == "O":
+        AI_symbol = "X"
+        print("You have chosen: ", player_symbol, ",and the AI will be: ", AI_symbol)
+        break
+    else:
+        print("Try again. You must press X or O on the keyboard to make your selection")
+        continue
+
+# This chooses at random whether to let the player or AI go first
+first_turn = random.randint(1, 2)
+if first_turn > 1:
+    print("You may have the first turn")
+else:
+    print("The AI will go first this time")
+
+# Each game will have 9 moves, so we can use a for loop in the game to ensure player is reprompted for move each time (unless game is over)
+# We set turn count to zero. This will be used to check winners and draws
+turn_count = 0
+
+while turn_count <= 9:
+    player_move()
+    # After the player or AI move, +1 to counter, board values updated, and new board is displayed
+    turn_count += 1
+    display_board(board_now)
+    AI_move()
+    turn_count += 1
+    display_board(board_now)
