@@ -18,15 +18,17 @@ def reset_board(board):
 # This function asks the player where they would like to place their mark.
 def player_move():
     while True:
-        player_choice = int(input("Select a number between 1 and 9 to make your move: "))
-        if board_now[player_choice] == ' ':
-            board_now[player_choice] = player_symbol
-            break
-        elif 1 <= player_choice <= 9:
-            return player_move
-        else:
-            print("Try again. You must press a number between 1-9 on the keyboard to make your selection")
-            continue
+        try:
+            player_choice = int(input("Select a number between 1 and 9 to make your move: "))
+            if player_choice not in range(0, 9):
+                print("Selection must be a number between 1-9.")
+            elif board_now[player_choice] == ' ':
+                board_now[player_choice] = player_symbol
+                break
+            else:
+                print("Try again. That position is taken. ")
+        except ValueError:
+            print("Selection must be a number between 1-9.")
 
 
 # We need to define all winning states.
@@ -100,6 +102,8 @@ def game_play():
         else:
             print("The winner is", turn)
             break
+    if turn_count == 9:
+        print("We have a draw!")
 
 
 # Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
