@@ -45,8 +45,6 @@ while True:
 
 
 # This chooses at random whether to let the player or AI go first
-# We don't know whose turn it is yet, so assign 0
-turn = 0
 first_turn = random.randint(1, 2)
 if first_turn > 1:
     print("You may have the first turn")
