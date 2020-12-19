@@ -9,11 +9,11 @@ print("Welcome to TicTacToe. You can reference positions on the board using the 
 
 
 def display_board(board):
-    print(board[7] + '|'+board[8]+'|'+board[9])
+    print(board[7] + '|' + board[8] + '|' + board[9])
     print('-+-+-')
-    print(board[4] + '|'+board[5]+'|' + board[6])
+    print(board[4] + '|' + board[5] + '|' + board[6])
     print('-+-+-')
-    print(board[1] + '|'+board[2]+'|' + board[3])
+    print(board[1] + '|' + board[2] + '|' + board[3])
 
 
 display_board(board_now)
@@ -26,7 +26,6 @@ def reset(board):
 
 
 reset(board_now)
-
 
 # This asks the player to choose to play as either X or O
 while True:
@@ -42,7 +41,6 @@ while True:
     else:
         print("Try again. You must press X or O on the keyboard to make your selection")
         continue
-
 
 # This chooses at random whether to let the player or AI go first
 first_turn = random.randint(1, 2)
@@ -66,18 +64,62 @@ def player_move():
             continue
 
 
-count = 1
+turn_count = 0
 player_move()
-count += 2
+turn_count += 1
 display_board(board_now)
 
 
-# We need to define all winning states. This includes anywhere where there are 3 matching marks in a rox, column,
-# or diagonal
-def who_wins():
-    # If player went first and count is even then it must be the player's turn
-    if first_turn > 1 and (count % 2) != 0:
+# We need to define all winning states.
+# This includes anywhere where there are 3 matching marks in a row, column, or diagonal
+def winning():
+    # Set winner to be blank until we compute who made the last move
+    winner = " "
+    # If player went first (and count starts at 0) and turn_count is an even number then it must be the player's turn
+    if first_turn > 1 and (turn_count % 2) == 0:
         winner = "Player"
     else:
         winner = "AI"
-    return winner
+
+    # If any row has equal values that are not blank, game is over
+    if board_now[7] == board_now[8] == board_now[9] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    elif board_now[4] == board_now[5] == board_now[6] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    elif board_now[1] == board_now[2] == board_now[3] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    # If any column has equal values that are not blank, game over
+    elif board_now[7] == board_now[4] == board_now[1] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    elif board_now[8] == board_now[5] == board_now[2] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    elif board_now[9] == board_now[6] == board_now[3] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    # If any diagonal line has equal values that are not blank, game over
+    elif board_now[7] == board_now[5] == board_now[3] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
+
+    elif board_now[9] == board_now[5] == board_now[1] != ' ':
+        display_board(board_now)
+        print("Game over")
+        print("The winner is: ", winner)
