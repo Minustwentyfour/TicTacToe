@@ -11,7 +11,7 @@ def display_board(board):
 
 # This function resets the board so all values are blank
 # (removes the numbers 1-9 as they were just there as instructions)
-def reset(board):
+def reset_board(board):
     board.update({}.fromkeys(board, ' '))
 
 
@@ -31,65 +31,75 @@ def player_move():
 
 # We need to define all winning states.
 # This includes anywhere where there are 3 matching marks in a row, column, or diagonal
-def winning():
-    # Set winner to be blank until we compute who made the last move
-    winner = " "
-    # If player went first (and count starts at 0) and turn_count is an even number then it must be the player's turn
-    if first_turn > 1 and (turn_count % 2) == 0:
-        winner = "Player"
-    else:
-        winner = "AI"
-
+def check_winner():
     # If any row has equal values that are not blank, game is over
     if board_now[7] == board_now[8] == board_now[9] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     elif board_now[4] == board_now[5] == board_now[6] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     elif board_now[1] == board_now[2] == board_now[3] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     # If any column has equal values that are not blank, game over
     elif board_now[7] == board_now[4] == board_now[1] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     elif board_now[8] == board_now[5] == board_now[2] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     elif board_now[9] == board_now[6] == board_now[3] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     # If any diagonal line has equal values that are not blank, game over
     elif board_now[7] == board_now[5] == board_now[3] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
     elif board_now[9] == board_now[5] == board_now[1] != ' ':
         display_board(board_now)
         print("Game over")
-        print("The winner is: ", winner)
+        return True
 
 
-# We also need to account for possible draws
-# A draw occurs when all positions are filled but there is no winner
-# We can use the turn_count to compute this
-def check_draw():
-    if turn_count == 9:
-        print("Game Over. Ladies and gentlemen, we have a tie!")
+# Each game will have 9 moves,
+# so we can use a for loop in the game to ensure player is prompted for move each time (unless game is over)
+# We set turn count to zero. This will be used to check winners and draws
+def game_play():
+    # We must reset the board so it contains blank values instead of numbers and set turn count back to one
+    reset_board(board_now)
+    turn_count = 1
+
+    while turn_count < 9:
+        if not check_winner():
+            if turn == "Player":
+                player_move()
+                # check_winner()
+                display_board(board_now)
+                turn_count += 1
+
+            elif turn == "AI":
+                # AI_move()
+                # check_winner()
+                turn_count += 1
+                display_board(board_now)
+        else:
+            print("The winner is", turn)
+            break
 
 
 # Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
@@ -97,12 +107,10 @@ def check_draw():
 board_now = {7: "7", 8: "8", 9: "9",
              4: "4", 5: "5", 6: "6",
              1: "1", 2: "2", 3: "3"}
-# We will also print a Welcome message and some instructions here, with a diagram showing how to reference board positions with numbers
-print(
-    "Welcome to TicTacToe. You can reference positions on the board using the corresponding numbers on the keyboard, as shown on the board below.")
+
+# We will also print some instructions here, with a diagram showing how to reference board positions with numbers
+print("You can reference positions on the board using the corresponding numbers on the keyboard, as shown below.")
 display_board(board_now)
-# We then must reset the board so it contains blank values instead of numbers
-reset(board_now)
 
 # This asks the player to choose to play as either X or O
 while True:
@@ -122,19 +130,10 @@ while True:
 # This chooses at random whether to let the player or AI go first
 first_turn = random.randint(1, 2)
 if first_turn > 1:
+    turn = "Player"
     print("You may have the first turn")
 else:
+    turn = "AI"
     print("The AI will go first this time")
 
-# Each game will have 9 moves, so we can use a for loop in the game to ensure player is reprompted for move each time (unless game is over)
-# We set turn count to zero. This will be used to check winners and draws
-turn_count = 0
-
-while turn_count <= 9:
-    player_move()
-    # After the player or AI move, +1 to counter, board values updated, and new board is displayed
-    turn_count += 1
-    display_board(board_now)
-    AI_move()
-    turn_count += 1
-    display_board(board_now)
+game_play()
