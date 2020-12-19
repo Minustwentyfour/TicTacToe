@@ -45,14 +45,16 @@ while True:
 
 
 # This chooses at random whether to let the player or AI go first
-turn = random.randint(1, 2)
-if turn > 1:
+# We don't know whose turn it is yet, so assign 0
+turn = 0
+first_turn = random.randint(1, 2)
+if first_turn > 1:
     print("You may have the first turn")
 else:
     print("The AI will go first this time")
 
 
-# This function asks the player where they would like to place their mark. 
+# This function asks the player where they would like to place their mark.
 def player_move():
     while True:
         player_choice = int(input("Select a number between 1 and 9 to make your move: "))
@@ -66,5 +68,18 @@ def player_move():
             continue
 
 
+count = 1
 player_move()
+count += 2
 display_board(board_now)
+
+
+# We need to define all winning states. This includes anywhere where there are 3 matching marks in a rox, column,
+# or diagonal
+def who_wins():
+    # If player went first and count is even then it must be the player's turn
+    if first_turn > 1 and (count % 2) != 0:
+        winner = "Player"
+    else:
+        winner = "AI"
+    return winner
