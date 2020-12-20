@@ -361,12 +361,12 @@ else:
 while True:
     game_moves()
     counter += 1
-    if counter == 10:
-        print("We have a draw!")
-        break
     if check_winner() and turn == "Player":
         print("Game over! The winner is AI")
         break
     if check_winner() and turn == "AI":
         print("Game over! The winner is Player")
+        break
+    if counter == 10:
+        print("We have a draw!")
         break
