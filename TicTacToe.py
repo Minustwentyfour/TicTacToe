@@ -144,7 +144,7 @@ def check_winner():
 def check_draw():
     for i in board_now:
         if i == ' ':
-            return True
+            return False
 
 
 # Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
