@@ -15,17 +15,6 @@ def reset_board(board):
     board.update({}.fromkeys(board, ' '))
 
 
-# elif turn == "AI":
-# print("AI's move is:")
-# ai_move()
-
-
-# elif not check_winner and turn == "AI" and turn_count != 1 | 2:
-# ai_move()
-# display_board(board_now)
-# turn_count += 1
-
-
 # This function asks the player where they would like to place their mark.
 def player_move():
     global turn
@@ -63,7 +52,23 @@ def ai_first_move():
 # This is the AI second move. If centre is blank take there. Otherwise, take a corner.
 def ai_second_move():
     global turn
-    if board_now[5] == " ":
+    row3 = (board_now[1], board_now[2], board_now[3])
+    if (row3.count(AI_symbol) == 2 and row3.count(' ') == 1) or (
+            row3.count(player_symbol) == 2 and row3.count(' ') == 1):
+        # If we are on the third move we know 7 is taken (from our 1st or 2nd move), so 8 or 9 could be free
+        if board_now[1] == " ":
+            board_now[1] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[2] == " ":
+            board_now[2] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[3] == " ":
+            board_now[3] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+    elif board_now[5] == " ":
         board_now[5] = AI_symbol
         display_board(board_now)
         turn = "Player"
@@ -249,21 +254,21 @@ def game_moves():
 
     # AI's first move if it is AI turn first
     elif turn == "AI" and counter == 1:
-        print("AI's move is:")
+        print("AI's first move is:")
         ai_first_move()
     # AI first move if AI is second
     elif turn == "AI" and counter == 2:
-        print("AI's move is:")
+        print("AI's first move is:")
         ai_first_move()
 
     # AI's second move if AI is first to go
     elif turn == "AI" and counter == 3:
-        print("AI's move is:")
+        print("AI's second move is:")
         ai_second_move()
 
     # AI's second move if AI is second to go
     elif turn == "AI" and counter == 4:
-        print("AI's move is:")
+        print("AI's second move is:")
         ai_second_move()
 
     else:
@@ -353,12 +358,15 @@ else:
     print("The AI will go first this time")
     turn = "AI"
 
-while not check_winner():
+while True:
     game_moves()
     counter += 1
     if counter == 10:
         print("We have a draw!")
         break
-    if check_winner():
-        print("Game over!")
+    if check_winner() and turn == "Player":
+        print("Game over! The winner is AI")
+        break
+    if check_winner() and turn == "AI":
+        print("Game over! The winner is Player")
         break
