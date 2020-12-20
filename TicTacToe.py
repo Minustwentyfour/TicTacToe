@@ -86,6 +86,163 @@ def ai_second_move():
         turn = "Player"
 
 
+def ai_next_move():
+    global turn
+
+    row1 = (board_now[7], board_now[8], board_now[9])
+    row2 = (board_now[4], board_now[5], board_now[6])
+    row3 = (board_now[1], board_now[2], board_now[3])
+    col1 = (board_now[1], board_now[4], board_now[7])
+    col2 = (board_now[2], board_now[5], board_now[8])
+    col3 = (board_now[3], board_now[6], board_now[9])
+    diag1 = (board_now[1], board_now[5], board_now[9])
+    diag2 = (board_now[7], board_now[5], board_now[3])
+
+    # We count the marks in each of these. If any line has 2 marks that are the same, go there
+    if (row1.count(AI_symbol) == 2 and row1.count(' ') == 1) or (
+            row1.count(player_symbol) == 2 and row1.count(' ') == 1):
+        # If we are on the third move we know 7 is taken (from our 1st or 2nd move), so 8 or 9 could be free
+        if board_now[8] == " ":
+            board_now[8] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[9] == " ":
+            board_now[9] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (row2.count(AI_symbol) == 2 and row2.count(' ') == 1) or (
+            row2.count(player_symbol) == 2 and row2.count(' ') == 1):
+        # If we are on the third move we know 7 is taken (from our 1st or 2nd move), so 8 or 9 could be free
+        if board_now[4] == " ":
+            board_now[4] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[6] == " ":
+            board_now[6] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (row3.count(AI_symbol) == 2 and row3.count(' ') == 1) or (
+            row3.count(player_symbol) == 2 and row3.count(' ') == 1):
+        if board_now[1] == " ":
+            board_now[1] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[2] == " ":
+            board_now[2] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[3] == " ":
+            board_now[3] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (col1.count(AI_symbol) == 2 and col1.count(' ') == 1) or (
+            col1.count(player_symbol) == 2 and col1.count(' ') == 1):
+        # If we are on the third move we know 7 is taken (from our 1st or 2nd move), so 8 or 9 could be free
+        if board_now[4] == " ":
+            board_now[4] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[1] == " ":
+            board_now[1] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (col2.count(AI_symbol) == 2 and col2.count(' ') == 1) or (
+            col2.count(player_symbol) == 2 and col2.count(' ') == 1):
+        # If we are on the third move we know 7 is taken (from our 1st or 2nd move), so 8 or 9 could be free
+        if board_now[8] == " ":
+            board_now[8] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[5] == " ":
+            board_now[5] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[2] == " ":
+            board_now[2] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (col3.count(AI_symbol) == 2 and col3.count(' ') == 1) or (
+            col3.count(player_symbol) == 2 and col3.count(' ') == 1):
+        # If we are on the third move we know 7 is taken (from our 1st or 2nd move), so 8 or 9 could be free
+        if board_now[9] == " ":
+            board_now[9] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[6] == " ":
+            board_now[6] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[3] == " ":
+            board_now[3] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (diag1.count(AI_symbol) == 2 and diag1.count(' ') == 1) or (
+            diag1.count(player_symbol) == 2 and diag1.count(' ') == 1):
+        if board_now[1] == " ":
+            board_now[1] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[5] == " ":
+            board_now[5] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[9] == " ":
+            board_now[9] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+    elif (diag2.count(AI_symbol) == 2 and diag2.count(' ') == 1) or (
+            diag2.count(player_symbol) == 2 and diag2.count(' ') == 1):
+        if board_now[7] == " ":
+            board_now[7] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[5] == " ":
+            board_now[5] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[3] == " ":
+            board_now[3] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+            # We know that 7 and 5 are taken now as those were our first and second choice moves
+    else:
+        if board_now[1] == " ":
+            board_now[1] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[2] == " ":
+            board_now[2] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[3] == " ":
+            board_now[3] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[4] == " ":
+            board_now[4] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[6] == " ":
+            board_now[6] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[8] == " ":
+            board_now[8] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+        elif board_now[9] == " ":
+            board_now[9] = AI_symbol
+            display_board(board_now)
+            turn = "Player"
+
+
 def game_moves():
     if turn == "Player":
         player_move()
@@ -109,42 +266,54 @@ def game_moves():
         print("AI's move is:")
         ai_second_move()
 
+    else:
+        print("AI next move is:")
+        ai_next_move()
+
 
 # We need to define all winning states.
 # This includes anywhere where there are 3 matching marks in a row, column, or diagonal
 def check_winner():
     # If any row has equal values that are not blank, game is over
-    if board_now[7] == board_now[8] == board_now[9] == ('x' or 'X' or 'O' or 'o'):
+    if board_now[7] == board_now[8] == board_now[9] == AI_symbol \
+            or board_now[7] == board_now[8] == board_now[9] == player_symbol:
         return True
 
-    elif board_now[4] == board_now[5] == board_now[6] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[4] == board_now[5] == board_now[6] == AI_symbol \
+            or board_now[4] == board_now[5] == board_now[6] == player_symbol:
         return True
 
-    elif board_now[1] == board_now[2] == board_now[3] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[1] == board_now[2] == board_now[3] == AI_symbol \
+            or board_now[1] == board_now[2] == board_now[3] == player_symbol:
         return True
 
     # If any column has equal values that are not blank, game over
-    elif board_now[7] == board_now[4] == board_now[1] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[7] == board_now[4] == board_now[1] == AI_symbol or\
+            board_now[7] == board_now[4] == board_now[1] == player_symbol:
         return True
 
-    elif board_now[8] == board_now[5] == board_now[2] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[8] == board_now[5] == board_now[2] == AI_symbol or\
+            board_now[8] == board_now[5] == board_now[2] == player_symbol:
         return True
 
-    elif board_now[9] == board_now[6] == board_now[3] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[9] == board_now[6] == board_now[3] == AI_symbol or\
+            board_now[9] == board_now[6] == board_now[3] == player_symbol:
         return True
 
     # If any diagonal line has equal values that are not blank, game over
-    elif board_now[7] == board_now[5] == board_now[3] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[7] == board_now[5] == board_now[3] == AI_symbol \
+            or board_now[7] == board_now[5] == board_now[3] == player_symbol:
         return True
 
-    elif board_now[9] == board_now[5] == board_now[1] == ('x' or 'X' or 'O' or 'o'):
+    elif board_now[9] == board_now[5] == board_now[1] == AI_symbol or\
+            board_now[9] == board_now[5] == board_now[1] == player_symbol:
         return True
 
+    else:
+        return False
 
-def check_draw():
-    for i in board_now:
-        if i == ' ':
-            return False
+
+# def check_draw():
 
 
 # Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
@@ -174,7 +343,7 @@ while True:
 
 reset_board(board_now)
 turn = None
-counter = 0
+counter = 1
 
 first_turn = random.randint(1, 2)
 if first_turn > 1:
@@ -184,12 +353,12 @@ else:
     print("The AI will go first this time")
     turn = "AI"
 
-while not check_winner() and not check_draw():
+while not check_winner():
     game_moves()
     counter += 1
-
-if check_draw():
-    print("We have a draw!")
-
-if check_winner():
-    print("Game over! The winner is", turn)
+    if counter == 10:
+        print("We have a draw!")
+        break
+    if check_winner():
+        print("Game over!")
+        break
