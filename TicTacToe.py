@@ -17,6 +17,7 @@ def reset_board(board):
 
 # This function asks the player where they would like to place their mark.
 def player_move():
+    global turn
     while True:
         try:
             player_choice = int(input("Select a number between 1 and 9 to make your move: "))
@@ -30,18 +31,83 @@ def player_move():
         except ValueError:
             print("Selection must be a number between 1-9.")
 
+    display_board(board_now)
+    turn = "AI"
+
+
+# This function chooses the AI' first move. We take one of the top corners
+# If the AI went second then 7 may be taken, so we try two corners
+def ai_first_move():
+    global turn
+    if board_now[7] == " ":
+        board_now[7] = AI_symbol
+        display_board(board_now)
+        turn = "Player"
+    elif board_now[9] == " ":
+        board_now[9] = AI_symbol
+        display_board(board_now)
+        turn = "Player"
+
+
+# This is the AI second move. If centre is blank take there. Otherwise, take a corner.
+def ai_second_move():
+    global turn
+    if board_now[5] == " ":
+        board_now[5] = AI_symbol
+        display_board(board_now)
+        turn = "Player"
+    # If AI went second and it is its second move then at this stage there will be 3 marks on the board.
+    # We know the centre is one, because we can't get to this step unless centre is taken
+    # That means we need to offer a choice of three corners, in case the first 2 we try are taken
+    elif board_now[7] == " ":
+        board_now[7] = AI_symbol
+        display_board(board_now)
+        turn = "Player"
+
+    elif board_now[9] == " ":
+        board_now[9] = AI_symbol
+        display_board(board_now)
+        turn = "Player"
+
+    elif board_now[1] == " ":
+        board_now[1] = AI_symbol
+        display_board(board_now)
+        turn = "Player"
+
+
+def game_moves():
+    if turn == "Player":
+        player_move()
+
+    # AI's first move if it is AI turn first
+    elif turn == "AI" and counter == 1:
+        print("AI's move is:")
+        ai_first_move()
+    # AI first move if AI is second
+    elif turn == "AI" and counter == 2:
+        print("AI's move is:")
+        ai_first_move()
+
+    # AI's second move if AI is first to go
+    elif turn == "AI" and counter == 3:
+        print("AI's move is:")
+        ai_second_move()
+
+    # AI's second move if AI is second to go
+    elif turn == "AI" and counter == 4:
+        print("AI's move is:")
+        ai_second_move()
+
 
 # We need to define all winning states.
 # This includes anywhere where there are 3 matching marks in a row, column, or diagonal
 def check_winner():
     # If any row has equal values that are not blank, game is over
     if board_now[7] == board_now[8] == board_now[9] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
     elif board_now[4] == board_now[5] == board_now[6] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
@@ -52,58 +118,31 @@ def check_winner():
 
     # If any column has equal values that are not blank, game over
     elif board_now[7] == board_now[4] == board_now[1] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
     elif board_now[8] == board_now[5] == board_now[2] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
     elif board_now[9] == board_now[6] == board_now[3] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
     # If any diagonal line has equal values that are not blank, game over
     elif board_now[7] == board_now[5] == board_now[3] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
     elif board_now[9] == board_now[5] == board_now[1] != ' ':
-        display_board(board_now)
         print("Game over")
         return True
 
 
-# Each game will have 9 moves,
-# so we can use a for loop in the game to ensure player is prompted for move each time (unless game is over)
-# We set turn count to zero. This will be used to check winners and draws
-def game_play():
-    # We must reset the board so it contains blank values instead of numbers and set turn count back to one
-    reset_board(board_now)
-    turn_count = 1
-
-    while turn_count < 9:
-        if not check_winner():
-            if turn == "Player":
-                player_move()
-                # check_winner()
-                display_board(board_now)
-                turn_count += 1
-
-            elif turn == "AI":
-                # AI_move()
-                # check_winner()
-                turn_count += 1
-                display_board(board_now)
-        else:
-            print("The winner is", turn)
-            break
-    if turn_count == 9:
-        print("We have a draw!")
+def check_draw():
+    for i in board_now:
+        if i == ' ':
+            return True
 
 
 # Defines our board as a dictionary with the numbers 1-9 on the keypad representing positions.
@@ -131,13 +170,24 @@ while True:
         print("Try again. You must press X or O on the keyboard to make your selection")
         continue
 
-# This chooses at random whether to let the player or AI go first
+reset_board(board_now)
+turn = None
+counter = 0
+
 first_turn = random.randint(1, 2)
 if first_turn > 1:
-    turn = "Player"
     print("You may have the first turn")
+    turn = "Player"
 else:
-    turn = "AI"
     print("The AI will go first this time")
+    turn = "AI"
 
-game_play()
+while not check_winner() and not check_draw():
+    game_moves()
+    counter += 1
+
+if check_draw():
+    print("We have a draw!")
+
+if check_winner():
+    print("The winner is", )
