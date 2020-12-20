@@ -15,13 +15,24 @@ def reset_board(board):
     board.update({}.fromkeys(board, ' '))
 
 
+# elif turn == "AI":
+# print("AI's move is:")
+# ai_move()
+
+
+# elif not check_winner and turn == "AI" and turn_count != 1 | 2:
+# ai_move()
+# display_board(board_now)
+# turn_count += 1
+
+
 # This function asks the player where they would like to place their mark.
 def player_move():
     global turn
     while True:
         try:
             player_choice = int(input("Select a number between 1 and 9 to make your move: "))
-            if player_choice not in range(0, 9):
+            if player_choice not in range(1, 10):
                 print("Selection must be a number between 1-9.")
             elif board_now[player_choice] == ' ':
                 board_now[player_choice] = player_symbol
@@ -103,39 +114,30 @@ def game_moves():
 # This includes anywhere where there are 3 matching marks in a row, column, or diagonal
 def check_winner():
     # If any row has equal values that are not blank, game is over
-    if board_now[7] == board_now[8] == board_now[9] != ' ':
-        print("Game over")
+    if board_now[7] == board_now[8] == board_now[9] == ('x' or 'X' or 'O' or 'o'):
         return True
 
-    elif board_now[4] == board_now[5] == board_now[6] != ' ':
-        print("Game over")
+    elif board_now[4] == board_now[5] == board_now[6] == ('x' or 'X' or 'O' or 'o'):
         return True
 
-    elif board_now[1] == board_now[2] == board_now[3] != ' ':
-        display_board(board_now)
-        print("Game over")
+    elif board_now[1] == board_now[2] == board_now[3] == ('x' or 'X' or 'O' or 'o'):
         return True
 
     # If any column has equal values that are not blank, game over
-    elif board_now[7] == board_now[4] == board_now[1] != ' ':
-        print("Game over")
+    elif board_now[7] == board_now[4] == board_now[1] == ('x' or 'X' or 'O' or 'o'):
         return True
 
-    elif board_now[8] == board_now[5] == board_now[2] != ' ':
-        print("Game over")
+    elif board_now[8] == board_now[5] == board_now[2] == ('x' or 'X' or 'O' or 'o'):
         return True
 
-    elif board_now[9] == board_now[6] == board_now[3] != ' ':
-        print("Game over")
+    elif board_now[9] == board_now[6] == board_now[3] == ('x' or 'X' or 'O' or 'o'):
         return True
 
     # If any diagonal line has equal values that are not blank, game over
-    elif board_now[7] == board_now[5] == board_now[3] != ' ':
-        print("Game over")
+    elif board_now[7] == board_now[5] == board_now[3] == ('x' or 'X' or 'O' or 'o'):
         return True
 
-    elif board_now[9] == board_now[5] == board_now[1] != ' ':
-        print("Game over")
+    elif board_now[9] == board_now[5] == board_now[1] == ('x' or 'X' or 'O' or 'o'):
         return True
 
 
@@ -190,4 +192,4 @@ if check_draw():
     print("We have a draw!")
 
 if check_winner():
-    print("The winner is", )
+    print("Game over! The winner is", turn)
